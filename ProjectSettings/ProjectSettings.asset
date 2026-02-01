@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: d3553d463309ebc45bab5d88a5163557
+  productGUID: 821761f2317faca4e853b1dd6b5118ad
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: HA2
+  productName: HomeAssignment1
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -846,14 +846,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: HA2
+  metroPackageName: HomeAssignment1
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: HA2
+  metroApplicationDescription: HomeAssignment1
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -922,12 +922,12 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 6a2e5d9b-ab81-4852-9e4b-96f114486ecf
+  cloudProjectId: 65c8082a-3377-4e4a-bbb0-ee0f18754dfa
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: HA2
+  projectName: HomeAssignment1
   organizationId: dertkod
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
