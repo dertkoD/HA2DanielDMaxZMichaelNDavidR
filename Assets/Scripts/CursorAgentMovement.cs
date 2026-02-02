@@ -72,10 +72,13 @@ public class CursorAgentMovement : MonoBehaviour
     //Set destination foreach agent
     private void SetAgentsMovement(Vector3 finish, int agentIndex)
     {
-        hasClicked = true; // flag to only display the arrival log after the user command
+        // check for available index 
+        if (agentIndex < 0 || agentIndex >= agents.Count)
+            return;
         
+        hasClicked = true; // flag to only display the arrival log after the user command
         arrivedAgents.Clear();
-
+        
         agents[agentIndex].SetDestination(finish);
     }
 
