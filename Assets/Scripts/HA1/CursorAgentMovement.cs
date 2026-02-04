@@ -135,7 +135,6 @@ public class CursorAgentMovement : MonoBehaviour
                 (!ag.hasPath || ag.velocity.sqrMagnitude < 0.01f))
             {
                 arrivedAgents.Add(ag);
-                Debug.Log($"{ag.name} arrived at destination");
             }
         }
     }

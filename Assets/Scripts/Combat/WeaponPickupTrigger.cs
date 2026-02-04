@@ -22,11 +22,9 @@ public class WeaponPickupTrigger : MonoBehaviour
                 weaponId = weaponId,
                 weaponPrefab = weaponPrefab
             };
-
             
             weaponPickedChannel.Raise(data);
-
-           
+            
             Destroy(gameObject);
         }
     }
