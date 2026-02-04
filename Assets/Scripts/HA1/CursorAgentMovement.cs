@@ -29,7 +29,7 @@ public class CursorAgentMovement : MonoBehaviour
         
         if (CheckAgentsEnabled())
         {
-            //Mouse destination setting
+            //Mouse destination setting for 1 agent
             if ( Mouse.current.leftButton.isPressed)
             {
                 Ray ray = cam.ScreenPointToRay(Mouse.current.position.value);
@@ -37,7 +37,19 @@ public class CursorAgentMovement : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    SetAgentsMovement(hit.point);
+                    SetAgentsMovement(hit.point, 0);
+                }
+            } 
+            
+            //Mouse destination setting for 2 agent
+            if ( Mouse.current.rightButton.isPressed)
+            {
+                Ray ray = cam.ScreenPointToRay(Mouse.current.position.value);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    SetAgentsMovement(hit.point, 1);
                 }
             } 
             
@@ -58,16 +70,16 @@ public class CursorAgentMovement : MonoBehaviour
     }
 
     //Set destination foreach agent
-    private void SetAgentsMovement(Vector3 finish)
+    private void SetAgentsMovement(Vector3 finish, int agentIndex)
     {
-        hasClicked = true; // flag to only display the arrival log after the user command
+        // check for available index 
+        if (agentIndex < 0 || agentIndex >= agents.Count)
+            return;
         
+        hasClicked = true; // flag to only display the arrival log after the user command
         arrivedAgents.Clear();
         
-        foreach (var ag in agents)
-        {
-            ag.SetDestination(finish);
-        }
+        agents[agentIndex].SetDestination(finish);
     }
 
     //Check if all agents are enabled
