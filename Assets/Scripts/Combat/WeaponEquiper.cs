@@ -53,4 +53,6 @@ public class WeaponEquipper : MonoBehaviour
             weaponEquippedAction.Raise(agentRoot.AgentId, data.weaponId);
         }
     }
+    
+    
 }
