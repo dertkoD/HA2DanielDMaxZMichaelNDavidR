@@ -840,7 +840,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 6dae1d91906e6d945b0c387ecd6f4607, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: b1119c1782a41854087cf9db4c3e175b, type: 2}
+      objectReference: {fileID: 22100000, guid: a5d47ba2bd20d624aaca1d24a95f4775, type: 2}
     - target: {fileID: 6240733294840144465, guid: 6dae1d91906e6d945b0c387ecd6f4607, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1163,6 +1163,7 @@ MonoBehaviour:
     m_Bits: 128
   weaponEquippedAction: {fileID: 11400000, guid: 0483af2247153c14b8b37ecaff7b72a3, type: 2}
   enteredRangeAction: {fileID: 11400000, guid: 254e7c570ad92504abbfffb96c20bd37, type: 2}
+  aimParam: Aim
 --- !u!4 &4257439620707714982 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6dae1d91906e6d945b0c387ecd6f4607, type: 3}

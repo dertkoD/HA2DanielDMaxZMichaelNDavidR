@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2577f6af1d8f4cd4e9cff9762c868dcf
+guid: 72e11c09105569443961d1c4f05e0cc9
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: AnimeIdleRifle
+      name: AnimeRunBackwards
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 63
+      lastFrame: 16
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
