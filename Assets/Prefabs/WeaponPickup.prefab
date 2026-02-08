@@ -127,7 +127,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponPickupTrigger
   weaponId: 1
-  weaponPrefab: {fileID: 2515095295300594571, guid: 5041f387f2e8ec2448a6ddebc7c4b8bb, type: 3}
+  weaponPrefab: {fileID: 5123456789012345678, guid: 5041f387f2e8ec2448a6ddebc7c4b8bb, type: 3}
+  allowedPickerMask:
+    serializedVersion: 2
+    m_Bits: 128
   weaponPickedChannel: {fileID: 11400000, guid: 41b7f059c40789b41bc6ce9bb1f009e8, type: 2}
 --- !u!1001 &1130964507907309382
 PrefabInstance:

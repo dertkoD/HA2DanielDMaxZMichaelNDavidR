@@ -7,6 +7,7 @@ public class WeaponRangeController : MonoBehaviour
     [Header("Range Components")]
     [SerializeField] private SphereCollider rangeCollider; // Триггер радиуса
     [SerializeField] private GameObject rangeVisual;       // Визуальный круг
+    [SerializeField] private LayerMask targetMask;
 
     [Header("Listening To")]
     [SerializeField] private WeaponEquippedActionChannelSO weaponEquippedAction;
@@ -14,8 +15,17 @@ public class WeaponRangeController : MonoBehaviour
     [Header("Broadcasting To")]
     [SerializeField] private EnteredWeaponRangeActionChannelSO enteredRangeAction;
 
+    private int _currentTargetId = -1;
+
     private void Awake()
     {
+        if (targetMask.value == 0)
+        {
+            int layer = LayerMask.NameToLayer("AgentBody");
+            if (layer >= 0)
+                targetMask = 1 << layer;
+        }
+
         // Скрываем радиус при старте
         ToggleRange(false);
     }
@@ -56,15 +66,38 @@ public class WeaponRangeController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!agentRoot || !enteredRangeAction) return;
+        if (other.isTrigger) return;
+        if (other == agentRoot.PickupBodyCollider) return;
 
-        // Проверяем, кто вошел в радиус
-        var otherAgent = other.GetComponentInParent<AgentRoot>();
+        int bit = 1 << other.gameObject.layer;
+        if ((targetMask.value & bit) == 0) return;
+
+        if (!AgentRoot.TryGetByCollider(other, out var otherAgent)) return;
 
         // Если это агент и это НЕ я
         if (otherAgent != null && otherAgent.AgentId != agentRoot.AgentId)
         {
             // Сообщаем ShooterController'у начать огонь
-            enteredRangeAction.Raise(agentRoot.AgentId, otherAgent.AgentId);
+            _currentTargetId = otherAgent.AgentId;
+            enteredRangeAction.Raise(agentRoot.AgentId, _currentTargetId);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!agentRoot || !enteredRangeAction) return;
+        if (other.isTrigger) return;
+        if (other == agentRoot.PickupBodyCollider) return;
+
+        int bit = 1 << other.gameObject.layer;
+        if ((targetMask.value & bit) == 0) return;
+
+        if (!AgentRoot.TryGetByCollider(other, out var otherAgent)) return;
+
+        if (otherAgent.AgentId == _currentTargetId)
+        {
+            _currentTargetId = -1;
+            enteredRangeAction.Raise(agentRoot.AgentId, -1);
         }
     }
 }

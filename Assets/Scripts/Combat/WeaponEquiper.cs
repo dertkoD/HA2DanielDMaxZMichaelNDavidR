@@ -3,56 +3,67 @@ using UnityEngine;
 public class WeaponEquipper : MonoBehaviour
 {
     [SerializeField] private AgentRoot agentRoot;
-    [SerializeField] private Transform handSocket; // Ссылка на кость руки в иерархии
+    [SerializeField] private Transform handSocket;
+    [SerializeField] private ShooterController shooter;
 
-    [Header("Listening To")]
+    [Header("Channel")]
     [SerializeField] private WeaponPickedEventChannelSO weaponPickedChannel;
 
     [Header("Broadcasting To")]
     [SerializeField] private WeaponEquippedActionChannelSO weaponEquippedAction;
 
+    private WeaponView _currentWeaponInstance;
+
+    private bool HasWeapon => _currentWeaponInstance != null;
+
+    private void Awake()
+    {
+        if (agentRoot != null && handSocket == null)
+            handSocket = agentRoot.HandSocket;
+    }
+
     private void OnEnable()
     {
-        if (weaponPickedChannel) 
-            weaponPickedChannel.Register(OnWeaponPicked); // Используем Register (UnityEvent style)
+        if (weaponPickedChannel)
+            weaponPickedChannel.Register(OnWeaponEvent);
     }
 
     private void OnDisable()
     {
-        if (weaponPickedChannel) 
-            weaponPickedChannel.Unregister(OnWeaponPicked);
+        if (weaponPickedChannel)
+            weaponPickedChannel.Unregister(OnWeaponEvent);
     }
 
-    private void OnWeaponPicked(WeaponPickupData data)
+    private void OnWeaponEvent(WeaponPickupData data)
     {
         if (!agentRoot) return;
 
-        // Проверяем, что оружие подобрал именно ЭТОТ агент
-        if (data.pickerAgentId == agentRoot.AgentId)
+        if (data.eventType == WeaponPickupEventType.Entered)
         {
-            EquipWeapon(data);
+            if (HasWeapon) return;
+
+            if (data.pickerCollider != agentRoot.PickupBodyCollider) return;
+
+            if (data.pickupTrigger == null) return;
+
+            data.pickupTrigger.TryConsume(agentRoot.AgentId);
+            return;
+        }
+
+        if (data.eventType == WeaponPickupEventType.Picked)
+        {
+            if (HasWeapon) return;
+            if (data.pickerAgentId != agentRoot.AgentId) return;
+
+            _currentWeaponInstance = Instantiate(data.weaponPrefab, handSocket);
+            _currentWeaponInstance.transform.localPosition = Vector3.zero;
+            _currentWeaponInstance.transform.localRotation = Quaternion.identity;
+
+            if (shooter)
+                shooter.SetShotOrigin(_currentWeaponInstance.Muzzle ? _currentWeaponInstance.Muzzle : handSocket);
+
+            if (weaponEquippedAction)
+                weaponEquippedAction.Raise(agentRoot.AgentId, data.weaponId);
         }
     }
-
-    private void EquipWeapon(WeaponPickupData data)
-    {
-        // 1. Очищаем руку, если там что-то было (опционально)
-        foreach (Transform child in handSocket) Destroy(child.gameObject);
-
-        // 2. Спавним новое оружие
-        if (data.weaponPrefab != null && handSocket != null)
-        {
-            var weaponInstance = Instantiate(data.weaponPrefab, handSocket);
-            weaponInstance.transform.localPosition = Vector3.zero;
-            weaponInstance.transform.localRotation = Quaternion.identity;
-        }
-
-        // 3. Сообщаем системе, что оружие надето (включаем радиус)
-        if (weaponEquippedAction)
-        {
-            weaponEquippedAction.Raise(agentRoot.AgentId, data.weaponId);
-        }
-    }
-    
-    
 }
